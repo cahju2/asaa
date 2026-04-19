@@ -5,21 +5,23 @@ export component IconButton inherits Rectangle {
     in property <string> label;
     callback clicked();
     
-    width: ta.has-hover ? 75px : 65px;
-    height: ta.has-hover ? 75px : 65px;
-    border-radius: 20px;
+    // 固定サイズにしてリレイアウトを防ぐ
+    width: 65px;
+    height: 65px;
+    border-radius: 12px;
     background: ta.pressed ? #ffffff44 : ta.has-hover ? #ffffff22 : Theme.glass_bg;
     border-width: 1px;
-    border-color: ta.has-hover ? #ffffff55 : Theme.glass_border;
+    border-color: ta.has-hover ? #ffffff88 : Theme.glass_border;
     
-    animate width { duration: 200ms; easing: ease-out-back; }
-    animate height { duration: 200ms; easing: ease-out-back; }
-    animate background { duration: 150ms; }
+    // アニメーションは色のみにする（ソフトウェアレンダリングで非常に軽い）
+    animate background { duration: 100ms; }
+    animate border-color { duration: 100ms; }
 
     VerticalLayout {
         alignment: center; spacing: 2px;
-        Text { text: root.icon; font-size: 28px; horizontal-alignment: center; }
-        if ta.has-hover: Text { text: root.label; font-size: 11px; color: Theme.text_color; horizontal-alignment: center; font-weight: 700; }
+        Text { text: root.icon; font-size: 24px; horizontal-alignment: center; }
+        // ラベルは常に表示せず、ホバー時のみ不透明度を変えるような処理は重いので、シンプルに表示切替
+        if ta.has-hover: Text { text: root.label; font-size: 10px; color: Theme.text_color; horizontal-alignment: center; }
     }
 
     ta := TouchArea { clicked => { root.clicked(); } }

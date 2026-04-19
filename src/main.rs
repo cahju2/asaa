@@ -25,11 +25,14 @@ async fn main() -> anyhow::Result<()> {
         let cmd = match app.as_str() {
             "terminal" => "xterm",
             "files" => "pcmanfm",
-            "browser" => "firefox",
+            "browser" => "firefox-esr",
             _ => return,
         };
         println!("[Nimbus Shell] Launching app: {}", cmd);
-        let _ = Command::new(cmd).spawn();
+        match Command::new(cmd).spawn() {
+            Ok(child) => println!("[Nimbus Shell] Successfully spawned {} with PID: {}", cmd, child.id()),
+            Err(e) => eprintln!("[Nimbus Shell] Failed to spawn {}: {}", cmd, e),
+        }
     });
 
     // System Power Management
