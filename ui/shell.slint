@@ -20,7 +20,7 @@ export component NimbusShell inherits Window {
     callback system_action(string);
 
     Rectangle {
-        background: @linear-gradient(135deg, #0f2027 0%, #203a43 50%, #2c5364 100%);
+        background: #1a1b26;
         
         // Desktop Layer
         Rectangle {
@@ -71,6 +71,7 @@ export component NimbusShell inherits Window {
             z: 10;
             
             GlassPanel {
+                enabled: !root.is-logged-in;
                 width: 450px; height: 480px; x: (parent.width - 450px) / 2; y: (parent.height - 480px) / 2;
                 VerticalLayout {
                     padding: 40px; spacing: 25px; alignment: center;

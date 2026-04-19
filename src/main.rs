@@ -21,12 +21,11 @@ async fn main() -> anyhow::Result<()> {
         }
     });
 
-    // App Launcher
     ui.on_launch_app(|app| {
         let cmd = match app.as_str() {
-            "terminal" => "alacritty",
-            "files" => "nautilus",
-            "browser" => "brave-browser",
+            "terminal" => "xterm",
+            "files" => "pcmanfm",
+            "browser" => "firefox",
             _ => return,
         };
         println!("[Nimbus Shell] Launching app: {}", cmd);
