@@ -1,0 +1,26 @@
+import { Theme } from "theme.slint";
+
+export component IconButton inherits Rectangle {
+    in property <string> icon;
+    in property <string> label;
+    callback clicked();
+    
+    width: ta.has-hover ? 75px : 65px;
+    height: ta.has-hover ? 75px : 65px;
+    border-radius: 20px;
+    background: ta.pressed ? #ffffff44 : ta.has-hover ? #ffffff22 : Theme.glass_bg;
+    border-width: 1px;
+    border-color: ta.has-hover ? #ffffff55 : Theme.glass_border;
+    
+    animate width { duration: 200ms; easing: ease-out-back; }
+    animate height { duration: 200ms; easing: ease-out-back; }
+    animate background { duration: 150ms; }
+
+    VerticalLayout {
+        alignment: center; spacing: 2px;
+        Text { text: root.icon; font-size: 28px; horizontal-alignment: center; }
+        if ta.has-hover: Text { text: root.label; font-size: 11px; color: Theme.text_color; horizontal-alignment: center; font-weight: 700; }
+    }
+
+    ta := TouchArea { clicked => { root.clicked(); } }
+}

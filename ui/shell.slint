@@ -1,0 +1,102 @@
+import { LineEdit } from "std-widgets.slint";
+import { GlassPanel } from "glass_panel.slint";
+import { IconButton } from "icon_button.slint";
+import { Theme } from "theme.slint";
+
+export component NimbusShell inherits Window {
+    width: 1280px; height: 800px; 
+    no-frame: true;
+    background: transparent;
+
+    in property <string> clock-time: "00:00";
+    in property <string> clock-date: "Mon, Jan 1";
+    in property <float> cpu-usage: 0.0;
+    in property <float> ram-usage: 0.0;
+    in-out property <bool> is-logged-in: false;
+    in-out property <bool> auth-failed: false;
+    
+    callback login(string);
+    callback launch_app(string);
+    callback system_action(string);
+
+    Rectangle {
+        background: @linear-gradient(135deg, #0f2027 0%, #203a43 50%, #2c5364 100%);
+        
+        // Desktop Layer
+        Rectangle {
+            opacity: root.is-logged-in ? 1.0 : 0.0;
+            animate opacity { duration: 500ms; easing: ease-in-out; }
+            
+            HorizontalLayout {
+                y: 20px; x: 20px; width: parent.width - 40px; height: 40px;
+                GlassPanel {
+                    width: 320px; height: 40px;
+                    HorizontalLayout {
+                        padding: 10px; spacing: 15px; alignment: center;
+                        Text { text: "⚡ CPU: " + Math.round(root.cpu-usage) + "%"; color: Theme.text_color; font-weight: 700;}
+                        Rectangle { width: 1px; height: 20px; background: Theme.glass_border; }
+                        Text { text: "🧠 RAM: " + Math.round(root.ram-usage) + "%"; color: Theme.text_color; font-weight: 700;}
+                    }
+                }
+            }
+
+            VerticalLayout {
+                alignment: center; spacing: 10px;
+                Text { text: root.clock-time; font-size: 140px; color: #ffffffee; horizontal-alignment: center; font-weight: 800; }
+                Text { text: root.clock-date; font-size: 28px; color: #ffffffaa; horizontal-alignment: center; font-weight: 500; }
+            }
+
+            GlassPanel {
+                y: parent.height - 120px; x: (parent.width - self.width) / 2;
+                height: 95px; width: 700px;
+                HorizontalLayout {
+                    padding: 10px; spacing: 15px; alignment: center;
+                    IconButton { icon: "💻"; label: "Terminal"; clicked => { root.launch_app("terminal") } }
+                    IconButton { icon: "📁"; label: "Files"; clicked => { root.launch_app("files") } }
+                    IconButton { icon: "🌐"; label: "Browser"; clicked => { root.launch_app("browser") } }
+                    Rectangle { width: 2px; height: 50px; background: Theme.glass_border; }
+                    IconButton { icon: "🌙"; label: "Sleep"; clicked => { root.system_action("sleep") } }
+                    IconButton { icon: "🔄"; label: "Reboot"; clicked => { root.system_action("reboot") } }
+                    IconButton { icon: "⏻"; label: "Power"; clicked => { root.system_action("poweroff") } }
+                    Rectangle { width: 2px; height: 50px; background: Theme.glass_border; }
+                    IconButton { icon: "🔒"; label: "Lock"; clicked => { root.is-logged-in = false } }
+                }
+            }
+        }
+
+        // Login Layer
+        Rectangle {
+            opacity: !root.is-logged-in ? 1.0 : 0.0;
+            animate opacity { duration: 500ms; easing: ease-in-out; }
+            z: 10;
+            
+            GlassPanel {
+                width: 450px; height: 480px; x: (parent.width - 450px) / 2; y: (parent.height - 480px) / 2;
+                VerticalLayout {
+                    padding: 40px; spacing: 25px; alignment: center;
+                    Text { text: "Nimbus OS"; font-size: 42px; font-weight: 800; color: Theme.text_color; horizontal-alignment: center; }
+                    Text { text: "Welcome back"; font-size: 18px; color: #ffffffaa; horizontal-alignment: center; }
+                    
+                    Rectangle { height: 10px; }
+                    
+                    pwd := LineEdit {
+                        placeholder-text: "Enter Password"; 
+                        input-type: password;
+                        height: 55px; font-size: 20px;
+                        accepted => { root.login(self.text); self.text = ""; }
+                    }
+                    if root.auth-failed : Text { text: "✖ Incorrect Password"; color: Theme.danger_color; font-size: 16px; horizontal-alignment: center; font-weight: 700; }
+                    
+                    Rectangle {
+                        height: 55px; background: Theme.primary_color; border-radius: 27px;
+                        animate background { duration: 100ms; }
+                        background: ta-login.pressed ? Theme.primary_pressed : ta-login.has-hover ? Theme.primary_hover : Theme.primary_color;
+                        
+                        Text { text: "Unlock"; color: Theme.text_color; font-size: 20px; font-weight: 800; horizontal-alignment: center; vertical-alignment: center; }
+                        ta-login := TouchArea { clicked => { root.login(pwd.text); pwd.text = ""; } }
+                    }
+                }
+            }
+        }
+    }
+}

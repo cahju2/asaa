@@ -1,0 +1,16 @@
+[package]
+name = "nimbus-shell"
+version = "1.0.0"
+edition = "2021"
+authors = ["Level 100 Engineer"]
+description = "A highly polished, async-powered, glassmorphism UI desktop shell"
+
+[dependencies]
+slint = "1.3"
+tokio = { version = "1.30", features = ["full"] }
+sysinfo = "0.30"
+chrono = "0.4"
+anyhow = "1.0"
+
+[build-dependencies]
+slint-build = "1.3"
