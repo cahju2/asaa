@@ -6,7 +6,8 @@ authors = ["Level 100 Engineer"]
 description = "A highly polished, async-powered, glassmorphism UI desktop shell"
 
 [dependencies]
-slint = "1.3"
+# Ubuntu ServerのようなGUIがない環境でも、直接フレームバッファ(DRM/KMS)に描画できるよう linuxkms を有効化
+slint = { version = "1.3", features = ["linuxkms"] }
 tokio = { version = "1.30", features = ["full"] }
 sysinfo = "0.30"
 chrono = "0.4"
