@@ -71,8 +71,10 @@ export component NimbusShell inherits Window {
             z: 10;
             
             GlassPanel {
-                enabled: !root.is-logged-in;
-                width: 450px; height: 480px; x: (parent.width - 450px) / 2; y: (parent.height - 480px) / 2;
+                width: 450px; height: 480px; 
+                x: (parent.width - 450px) / 2; 
+                y: !root.is-logged-in ? (parent.height - 480px) / 2 : -800px;
+                animate y { duration: 500ms; easing: ease-in-out-back; }
                 VerticalLayout {
                     padding: 40px; spacing: 25px; alignment: center;
                     Text { text: "Nimbus OS"; font-size: 42px; font-weight: 800; color: Theme.text_color; horizontal-alignment: center; }
