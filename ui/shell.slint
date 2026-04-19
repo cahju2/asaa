@@ -25,7 +25,6 @@ export component NimbusShell inherits Window {
         // Desktop Layer
         Rectangle {
             opacity: root.is-logged-in ? 1.0 : 0.0;
-            animate opacity { duration: 500ms; easing: ease-in-out; }
             
             HorizontalLayout {
                 y: 20px; x: 20px; width: parent.width - 40px; height: 40px;
@@ -66,15 +65,13 @@ export component NimbusShell inherits Window {
 
         // Login Layer
         Rectangle {
-            opacity: !root.is-logged-in ? 1.0 : 0.0;
-            animate opacity { duration: 500ms; easing: ease-in-out; }
+            visible: !root.is-logged-in;
             z: 10;
             
             GlassPanel {
                 width: 450px; height: 480px; 
                 x: (parent.width - 450px) / 2; 
-                y: !root.is-logged-in ? (parent.height - 480px) / 2 : -800px;
-                animate y { duration: 500ms; easing: ease-in-out-back; }
+                y: (parent.height - 480px) / 2;
                 VerticalLayout {
                     padding: 40px; spacing: 25px; alignment: center;
                     Text { text: "Nimbus OS"; font-size: 42px; font-weight: 800; color: Theme.text_color; horizontal-alignment: center; }

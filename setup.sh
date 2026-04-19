@@ -12,7 +12,7 @@ if [ -x "$(command -v apt-get)" ]; then
     sudo apt-get install -y build-essential curl pkg-config \
         libdrm-dev libgbm-dev libudev-dev libseat-dev \
         libxkbcommon-dev libinput-dev libfontconfig1-dev \
-        cage xterm pcmanfm firefox-esr
+        cage labwc xterm pcmanfm firefox-esr
 else
     echo "Warning: apt-get not found. This script is optimized for Ubuntu Server."
 fi

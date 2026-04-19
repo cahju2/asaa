@@ -12,10 +12,6 @@ export component IconButton inherits Rectangle {
     background: ta.pressed ? #ffffff44 : ta.has-hover ? #ffffff22 : Theme.glass_bg;
     border-width: 1px;
     border-color: ta.has-hover ? #ffffff88 : Theme.glass_border;
-    
-    // アニメーションは色のみにする（ソフトウェアレンダリングで非常に軽い）
-    animate background { duration: 100ms; }
-    animate border-color { duration: 100ms; }
 
     VerticalLayout {
         alignment: center; spacing: 2px;
