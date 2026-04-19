@@ -88,7 +88,7 @@ export component NimbusShell inherits Window {
                     if root.auth-failed : Text { text: "✖ Incorrect Password"; color: Theme.danger_color; font-size: 16px; horizontal-alignment: center; font-weight: 700; }
                     
                     Rectangle {
-                        height: 55px; background: Theme.primary_color; border-radius: 27px;
+                        height: 55px; border-radius: 27px;
                         animate background { duration: 100ms; }
                         background: ta-login.pressed ? Theme.primary_pressed : ta-login.has-hover ? Theme.primary_hover : Theme.primary_color;
                         
